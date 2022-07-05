@@ -1,0 +1,44 @@
+@font-face {
+  font-family: 'Cadillac SansA Book';
+  src: url('font/CadillacSansA-Book.ttf');
+}
+
+html, body {
+  min-height: 100%;
+}
+
+body {
+  background-image: url("img/background.svg");
+}
+
+p, div {
+  font-family: 'Cadillac SansA Book';
+}
+
+button.red {
+  color: white;
+  background-color: #ae0813;
+}
+
+button.red:hover {
+  color: white;
+  background-color: #c70a17;
+}
+
+button.blue {
+  color: white;
+  background-color: #024888;
+}
+
+button.blue:hover {
+  color: white;
+  background-color: #0254a1;
+}
+
+.modal-before {
+  color: white;
+  font-size: 20pt;
+  position: absolute;
+  top: -40px;
+  left: 40px;
+}
