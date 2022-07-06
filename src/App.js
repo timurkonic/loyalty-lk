@@ -2,6 +2,7 @@ import './App.css';
 import logo from './img/logo.svg';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Login from './Login';
+import Register from './Register';
 
 function App() {
   return (
@@ -9,7 +10,8 @@ function App() {
       <div class="logo"><img src={logo} width="300px" alt="ЛИНИЯ"/></div>
       <Router>
         <Routes>
-          <Route path="/login" element={<Login/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/register" element={<Register/>}/>
         </Routes>
       </Router>
     </div>

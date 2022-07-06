@@ -1,26 +1,21 @@
 import { useState } from 'react';
 import { Modal, Button, Form, Toast } from 'react-bootstrap';
-import { Navigate, useNavigate } from "react-router-dom";
 import backendService from './BackendService';
 
-const Login = () => {
-    const navigate = useNavigate();
+const Register = () => {
+
     const [show, setShow] = useState(true);
-    const [login, setLogin] = useState("");
-    const [loginEnabled, setLoginEnabled] = useState(false);
+    const [card, setCard] = useState("");
+    const [code, setCode] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [registerEnabled, setRegisterEnabled] = useState(false);
     const [toastText, setToastText] = useState("");
     const [toastShow, setToastShow] = useState(false);
 
-    const checkLogin = (value) => {
-        const re = /^[0-9]{13}$/;
-        setLoginEnabled(re.test(value));
-        setLogin(value);
-    }
-
-    const doLogin = async () => {
+    const doRegister = async () => {
         try {
-            const response = await backendService('POST', '/user/login', { body: {id: login, pass: password} });
+            const response = await backendService('POST', '/user/login', { body: {} });
         }
         catch (e) {
             setToastText(e.error);
@@ -28,24 +23,30 @@ const Login = () => {
         }
     }
 
-    const goRegister = () => {
-        navigate('/register')
-    }
-
     return (
         <Modal show={show} size="lg" backdrop={false} centered={true} animation={false} keyboard={false} onHide={() => setShow(false)} contentClassName="border-0 shadow-lg">
             <Modal.Body>
-                <div class="modal-before">Вход в личный кабинет</div>
+                <div class="modal-before">Регистрация</div>
                 <Form className="mb-3">
-                    <Form.Group>
+                <Form.Group>
                         <Form.Label>Номер карты</Form.Label>
-                        <Form.Control id="login" value={login} onChange={e => checkLogin(e.target.value)}/>
+                        <Form.Control value={card} onChange={e => setCard(e.target.value)}/>
                         <Form.Text className="text-muted">Тринадцатизначный номер Вашей карты лояльности Народная, находится на обратной стороне</Form.Text>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Код регистрации</Form.Label>
+                        <Form.Control value={code} onChange={e => setCode(e.target.value)}/>
+                        <Form.Text className="text-muted">Код регистрации, находится на чеке</Form.Text>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Пароль</Form.Label>
                         <Form.Control type="password" value={password} onChange={e => setPassword(e.target.value)}/>
                         <Form.Text className="text-muted">Пароль для входа в личный кабинет</Form.Text>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Подтверждение пароля</Form.Label>
+                        <Form.Control type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}/>
+                        <Form.Text className="text-muted">Подтверждение пароля</Form.Text>
                     </Form.Group>
                 </Form>
                 <Toast onClose={() => setToastShow(false)} show={toastShow} animation={false} delay={3000} autohide={true}>
@@ -54,11 +55,10 @@ const Login = () => {
                 </Toast>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="red" onClick={() => doLogin()} disabled={!loginEnabled}>Войти</Button>
-                <Button variant="blue" onClick={() => goRegister()}>Регистрация</Button>
+                <Button variant="red" onClick={() => doRegister()} disabled={!registerEnabled}>Зарегистрироваться</Button>
             </Modal.Footer>
         </Modal>
     );
 }
 
-export default Login;
+export default Register;
