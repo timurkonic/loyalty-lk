@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Modal, Button, Form, Alert } from 'react-bootstrap';
+import { Modal, Button, Form, Toast } from 'react-bootstrap';
 import backendService from './BackendService';
 
 const Login = () => {
@@ -8,7 +8,8 @@ const Login = () => {
     const [login, setLogin] = useState("");
     const [loginEnabled, setLoginEnabled] = useState(false);
     const [password, setPassword] = useState("");
-    const [alert, setAlert] = useState("");
+    const [toastText, setToastText] = useState("");
+    const [toastShow, setToastShow] = useState(false);
 
     const checkLogin = (value) => {
         const re = /^[0-9]{13}$/;
@@ -21,8 +22,8 @@ const Login = () => {
             const response = await backendService('POST', '/user/login', { body: {id: login, pass: password} });
         }
         catch (e) {
-            setAlert(e.error);
-            setTimeout(() => setAlert(""), 2000);
+            setToastText(e.error);
+            setToastShow(true);
         }
     }
 
@@ -41,7 +42,10 @@ const Login = () => {
                         <Form.Text className="text-muted">Пароль для входа в личный кабинет</Form.Text>
                     </Form.Group>
                 </Form>
-                <Alert show={alert.length > 0} variant="danger" className="position-absolute">{alert}</Alert>
+                <Toast onClose={() => setToastShow(false)} show={toastShow} animation={false} delay={3000} autohide={true}>
+                    <Toast.Header closeButton={false}>Ошибка</Toast.Header>
+                    <Toast.Body className="text-danger">{toastText}</Toast.Body>
+                </Toast>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="red" onClick={() => doLogin()} disabled={!loginEnabled}>Войти</Button>
