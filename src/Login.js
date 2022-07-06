@@ -1,22 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Modal, Button, Form, Toast } from 'react-bootstrap';
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import backendService from './BackendService';
 
 const Login = () => {
     const navigate = useNavigate();
     const [show, setShow] = useState(true);
-    const [login, setLogin] = useState("");
-    const [loginEnabled, setLoginEnabled] = useState(false);
+
+    const [login, setLogin] = useState("");   
     const [password, setPassword] = useState("");
+
+    const [loginValid, setLoginValid] = useState(true);
+    const [passwordValid, setPasswordValid] = useState(true);
+
+    const [loginEnabled, setLoginEnabled] = useState(false);
+
     const [toastText, setToastText] = useState("");
     const [toastShow, setToastShow] = useState(false);
 
-    const checkLogin = (value) => {
-        const re = /^[0-9]{13}$/;
-        setLoginEnabled(re.test(value));
-        setLogin(value);
-    }
+    const checkLogin = useCallback(() => {
+        const re = /9900^[0-9]{9}$/;
+        return re.test(login);
+    }, [login]);
+
+    const checkPassword = useCallback(() => {
+        return password.length >= 3;
+    }, [password]);
 
     const doLogin = async () => {
         try {
@@ -32,6 +41,13 @@ const Login = () => {
         navigate('/register')
     }
 
+    useEffect(() => {
+        setLoginValid(login.length === 0 || checkLogin());
+        setPasswordValid(password.length === 0 || checkPassword());
+
+        setLoginEnabled(checkLogin() && checkPassword());
+    }, [checkLogin, checkPassword]);
+
     return (
         <Modal show={show} size="lg" backdrop={false} centered={true} animation={false} keyboard={false} onHide={() => setShow(false)} contentClassName="border-0 shadow-lg">
             <Modal.Body>
@@ -39,12 +55,12 @@ const Login = () => {
                 <Form className="mb-3">
                     <Form.Group>
                         <Form.Label>Номер карты</Form.Label>
-                        <Form.Control id="login" value={login} onChange={e => checkLogin(e.target.value)}/>
+                        <Form.Control id="login" value={login} onChange={e => setLogin(e.target.value)} className={loginValid ? "" : "border border-danger"}/>
                         <Form.Text className="text-muted">Тринадцатизначный номер Вашей карты лояльности Народная, находится на обратной стороне</Form.Text>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Пароль</Form.Label>
-                        <Form.Control type="password" value={password} onChange={e => setPassword(e.target.value)}/>
+                        <Form.Control type="password" value={password} onChange={e => setPassword(e.target.value)} className={passwordValid ? "" : "border border-danger"}/>
                         <Form.Text className="text-muted">Пароль для входа в личный кабинет</Form.Text>
                     </Form.Group>
                 </Form>
