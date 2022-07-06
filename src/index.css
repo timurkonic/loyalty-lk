@@ -15,22 +15,22 @@ p, div {
   font-family: 'Cadillac SansA Book';
 }
 
-button.red {
+button.btn-red {
   color: white;
   background-color: #ae0813;
 }
 
-button.red:hover {
+button.btn-red:hover {
   color: white;
   background-color: #c70a17;
 }
 
-button.blue {
+button.btn-blue {
   color: white;
   background-color: #024888;
 }
 
-button.blue:hover {
+button.btn-blue:hover {
   color: white;
   background-color: #0254a1;
 }
