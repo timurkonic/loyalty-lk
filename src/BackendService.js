@@ -6,12 +6,15 @@ const backendService = async (method, path, options) => {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
         },
-        body: JSON.stringify(options.body)
+        body: JSON.stringify(options.body),
+        mode: 'cors',
+        cache: 'no-cache'
     }
 
     const response = await fetch (apiPath + path, params);
     const responseBody = await response.json();
     if (!response.ok) {
+        console.log(responseBody);
         throw (responseBody);
     }
     return responseBody;
