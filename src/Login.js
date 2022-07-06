@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import backendService from './BackendService';
 
 const Login = () => {
 
@@ -12,6 +13,16 @@ const Login = () => {
         const re = /^[0-9]{13}$/;
         setLoginEnabled(re.test(value));
         setLogin(value);
+    }
+
+    const doLogin = () => {
+        try {
+            const response = backendService('POST', '/user/login', { body: {id: login, pass: password} });
+            console.log(response);
+        }
+        catch (e) {
+
+        }
     }
 
     return (
@@ -32,7 +43,7 @@ const Login = () => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="red" onClick={() => setShow(false)} disabled={!loginEnabled}>Войти</Button>
+                    <Button variant="red" onClick={() => doLogin()} disabled={!loginEnabled}>Войти</Button>
                     <Button variant="blue" onClick={() => setShow(false)}>Регистрация</Button>
                 </Modal.Footer>
             </Modal>
