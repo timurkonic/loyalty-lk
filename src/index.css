@@ -15,6 +15,14 @@ p, div {
   font-family: 'Cadillac SansA Book';
 }
 
+.logo {
+  padding-top: 10px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 300px;
+}
+
 button.btn-red {
   color: white;
   background-color: #ae0813;
@@ -23,6 +31,11 @@ button.btn-red {
 button.btn-red:hover {
   color: white;
   background-color: #c70a17;
+}
+
+button.btn-red[disabled] {
+  color: white;
+  background-color: #888;
 }
 
 button.btn-blue {
@@ -49,4 +62,10 @@ button.btn-blue:hover {
   top: 50%;
   transform: translate(-50%, 0px);
   z-index: 9999;
+}
+
+.loading {
+  position: absolute;
+  left: 50%;
+  top: 200px;
 }
