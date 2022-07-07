@@ -3,7 +3,7 @@ import { Modal, Button, Form, Toast } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import backendService from './BackendService';
 
-const Login = () => {
+const Login = ({ setToken }) => {
     const navigate = useNavigate();
     const [show, setShow] = useState(true);
 
@@ -19,7 +19,7 @@ const Login = () => {
     const [toastShow, setToastShow] = useState(false);
 
     const checkLogin = useCallback(() => {
-        const re = /9900^[0-9]{9}$/;
+        const re = /^9900[0-9]{9}$/;
         return re.test(login);
     }, [login]);
 
@@ -30,15 +30,17 @@ const Login = () => {
     const doLogin = async () => {
         try {
             const response = await backendService('POST', '/user/login', { body: {id: login, pass: password} });
+            setToken(response.token);
+            navigate('/');
         }
         catch (e) {
-            setToastText(e.error);
+            setToastText(e.error || 'Ошибка входа');
             setToastShow(true);
         }
     }
 
     const goRegister = () => {
-        navigate('/register')
+        navigate('/register');
     }
 
     useEffect(() => {
@@ -46,12 +48,12 @@ const Login = () => {
         setPasswordValid(password.length === 0 || checkPassword());
 
         setLoginEnabled(checkLogin() && checkPassword());
-    }, [checkLogin, checkPassword]);
+    }, [checkLogin, checkPassword, login, password]);
 
     return (
         <Modal show={show} size="lg" backdrop={false} centered={true} animation={false} keyboard={false} onHide={() => setShow(false)} contentClassName="border-0 shadow-lg">
             <Modal.Body>
-                <div class="modal-before">Вход в личный кабинет</div>
+                <div className="modal-before">Вход в личный кабинет</div>
                 <Form className="mb-3">
                     <Form.Group>
                         <Form.Label>Номер карты</Form.Label>
