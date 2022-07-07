@@ -6,18 +6,26 @@ const backendService = async (method, path, options) => {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
         },
-        body: JSON.stringify(options.body),
         mode: 'cors',
         cache: 'no-cache'
     }
+    if (method === 'POST')
+        params.body = JSON.stringify(options.body);
 
-    const response = await fetch (apiPath + path, params);
-    const responseBody = await response.json();
-    if (!response.ok) {
-        console.log(responseBody);
-        throw (responseBody);
+    if (options.token)
+        params.headers['Authorization'] = 'Bearer ' + options.token;
+
+    try {
+        const response = await fetch (apiPath + path, params);
+        const responseBody = await response.json();
+        if (!response.ok) {
+            throw (responseBody);
+        }
+        return responseBody;
     }
-    return responseBody;
+    catch (e) {
+        throw(e);
+    }
 }
 
 export default backendService;
