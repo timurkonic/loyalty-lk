@@ -26,7 +26,7 @@ const Register = () => {
     return (
         <Modal show={show} size="lg" backdrop={false} centered={true} animation={false} keyboard={false} onHide={() => setShow(false)} contentClassName="border-0 shadow-lg">
             <Modal.Body>
-                <div class="modal-before">Регистрация</div>
+                <div className="modal-before">Регистрация</div>
                 <Form className="mb-3">
                 <Form.Group>
                         <Form.Label>Номер карты</Form.Label>
