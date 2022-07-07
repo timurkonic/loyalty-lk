@@ -1,14 +1,16 @@
 import './App.css';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Spinner } from 'react-bootstrap';
 
 import backendService from './BackendService';
 
+import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
 import Register from './Register';
 import Account from './Account';
+import Transactions from './Transactions';
 
 const App = () => {
   const [ token, setToken ] = useState(false);
@@ -21,7 +23,7 @@ const App = () => {
       return;
     }
 
-    if (token.length == 0) {
+    if (token.length === 0) {
       setAuthorized(false);
       return;
     }
@@ -34,15 +36,6 @@ const App = () => {
     catch (e) {
       setAuthorized(false);
     }
-  };
-
-  const ProtectedRoute = ({ authorized, children }) => {
-    if (authorized === undefined)
-      return null;
-    if (!authorized) {
-      return <Navigate to="/login"/>;
-    }
-    return children;
   };
 
   useEffect(() => {
@@ -73,7 +66,12 @@ const App = () => {
             <Account account={account}/>
           }/>
         }/>
-        <Route path="/" element={<Navigate to="/account" replace={true}/>}/>
+        <Route path="/transactions" element={
+          <ProtectedRoute authorized={authorized} children={
+            <Transactions account={account}/>
+          }/>
+        }/>
+        <Route path="/" element={<Navigate to="/transactions" replace={true}/>}/>
       </Routes>
     </Router>
   );
