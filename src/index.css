@@ -8,7 +8,7 @@ html, body {
 }
 
 body {
-  background-image: url("img/background.svg");
+  background-image: url("img/background2.svg");
 }
 
 p, div {
@@ -68,4 +68,25 @@ button.btn-blue:hover {
   position: absolute;
   left: 50%;
   top: 200px;
+}
+
+.block {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 4px 4px 4px 2px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  margin: 20px 0px 20px 0px;
+}
+
+.blockTitle {
+  color: #666;
+  font-size: 14pt;
+  margin-bottom: 10px;
+}
+
+.blockText {
+  color: #888;
+  font-size: 12pt;
+  margin-bottom: 10px;
+  margin-left: 4px;
 }

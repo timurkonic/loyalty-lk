@@ -9,8 +9,7 @@ import backendService from './BackendService';
 import ProtectedRoute from './ProtectedRoute';
 import Login from './Login';
 import Register from './Register';
-import Account from './Account';
-import Transactions from './Transactions';
+import Main from './Main';
 
 const App = () => {
   const [ token, setToken ] = useState(false);
@@ -61,18 +60,12 @@ const App = () => {
       <Routes>
         <Route path="/login" element={<Login setToken={setToken}/>}/>
         <Route path="/register" element={<Register/>}/>
-        <Route path="/account" element={
+        <Route path="/" element={
           <ProtectedRoute authorized={authorized} children={
-            <Account account={account}/>
+            <Main account={account} token={token}/>
           }/>
         }/>
-        <Route path="/transactions" element={
-          <ProtectedRoute authorized={authorized} children={
-            <Transactions account={account}/>
-          }/>
-        }/>
-        <Route path="/" element={<Navigate to="/transactions" replace={true}/>}/>
-      </Routes>
+     </Routes>
     </Router>
   );
 }
