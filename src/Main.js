@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import backendService from "./BackendService";
+import Transactions from "./Transactions";
 
 const Main = ({ account, token }) => {
     const [ transactions, setTransactions ] = useState([]);
@@ -38,15 +39,7 @@ const Main = ({ account, token }) => {
                         </div>
                     </Col>
                     <Col lg="6">
-                        <div className="block">
-                            <div className="blockTitle">Последние операции</div>
-                            <div className="blockText"><a href="#">Все</a> <a href="#">Начисление</a> <a href="#">Списание</a></div>
-                            { transactions.slice(0, 10).map( transaction => {
-                                return (
-                                    <div className="blockText">{transaction.name} {transaction.ts}</div>
-                                )
-                            })}
-                        </div>
+                        <Transactions transactions={transactions} account={account}/>
                     </Col>
                     <Col lg="3">
                         <div className="block">

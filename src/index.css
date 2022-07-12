@@ -90,3 +90,10 @@ button.btn-blue:hover {
   margin-bottom: 10px;
   margin-left: 4px;
 }
+
+.blockTextSmall {
+  color: #aaa;
+  font-size: 10pt;
+  margin-bottom: 10px;
+  margin-left: 4px;
+}
